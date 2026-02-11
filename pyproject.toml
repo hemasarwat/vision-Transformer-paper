@@ -1,0 +1,23 @@
+[tool.poetry]
+name = "vit-implementation"
+version = "0.1.0"
+description = "Vision Transformer implementation"
+authors = ["hemasarwat <hema.sarwat5@gmail.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = ">=3.12, <3.15"
+torch = "^2.10.0"
+torchvision = "^0.25.0"
+torchinfo = "^1.8.0"
+torchmetrics = "^1.8.2"
+numpy = "^2.4.2"
+matplotlib = "^3.10.8"
+requests = "^2.32.5"
+tqdm = "^4.67.3"
+pillow = "^12.1.0"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
