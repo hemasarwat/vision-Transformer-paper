@@ -6,11 +6,11 @@ A PyTorch implementation of the Vision Transformer paper: "An Image is Worth 16x
 
 ## The Core Idea:
 
-Transformers took over NLP a few years ago. Everyone thought they were just for text. Then this paper came along and said: "What if we treat images As a sentences?"
+Transformers took over NLP a few years ago. Everyone thought they were just for text. Then this paper came along and said: "What if we treat images As a patch of sentences?"
 
-The idea is surprisingly simple: chop an image into fixed-size patches (like cutting a photo into a grid), flatten each patch into a vector, and feed them to a standard Transformer. No convolutions needed. The model learns to pay attention to different parts of the image, just like it would with words in a sentence.
+The idea is simple: chop an image into fixed-size patches (like cutting a photo into a grid), flatten each patch into a vector, and feed them to a standard Transformer. No convolutions needed. The model learns to pay attention to different parts of the image, just like it would with words in a sentence.
 
-Turns out, when you train it on massive datasets (we're talking hundreds of millions of images), it matches or beats CNNs. The catch? It needs way more data than traditional computer vision models because it doesn't have built-in assumptions about images (like "nearby pixels are related"). It learns everything from scratch.
+Turns out, when you train it on massive datasets (we're talking hundreds of millions of images), it matches or beats CNNs. so where is the catch? It needs way more data than traditional computer vision models because it doesn't have built-in assumptions about images (like "nearby pixels are related"). It learns everything from scratch.
 
 
 ## Architecture Overview
