@@ -1,30 +1,27 @@
-# Vision Transformer for CIFAR-10 (Frozen Backbone)
+# Vision Transformer (ViT) Implementation
+*Treating images as sequences of patches*
 
-This project is a practical, beginner-friendly implementation of Vision Transformers (ViT) on CIFAR-10.
-The idea is simple: use a strong pre-trained ViT backbone, keep it frozen, and train only a small classifier head on top.
-This setup is called **linear probing** and is a good way to adapt a large model with lower training cost.
+A PyTorch implementation of the Vision Transformer paper: "An Image is Worth 16x16 Words" (Dosovitskiy et al., 2021).
 
-## In Simple Words
 
-- You give the model CIFAR-10 images.
-- Images are resized to `224 x 224` to match ViT input requirements.
-- The frozen ViT backbone extracts useful visual features.
-- A lightweight final layer learns CIFAR-10 classes from those features.
-- Training reports loss/accuracy and saves model weights for reuse.
+## The Core Idea:
 
-## Why This Repository
+Transformers took over NLP a few years ago. Everyone thought they were just for text. Then this paper came along and said: "What if we treat images As a sentences?"
 
-- Keep the code easy to read and modify.
-- Provide a clean baseline for ViT transfer learning on small datasets.
-- Offer reusable utilities for data loading, training loops, and checkpoint saving.
+The idea is surprisingly simple: chop an image into fixed-size patches (like cutting a photo into a grid), flatten each patch into a vector, and feed them to a standard Transformer. No convolutions needed. The model learns to pay attention to different parts of the image, just like it would with words in a sentence.
 
-## Project Scope
+Turns out, when you train it on massive datasets (we're talking hundreds of millions of images), it matches or beats CNNs. The catch? It needs way more data than traditional computer vision models because it doesn't have built-in assumptions about images (like "nearby pixels are related"). It learns everything from scratch.
 
-- Dataset: CIFAR-10
-- Backbone: `torchvision.models.vit_b_16` with ImageNet pre-trained weights
-- Training strategy: frozen backbone + trainable classifier head
-- Input resolution: `224 x 224`
-- Patch size: `16 x 16`
+
+## Architecture Overview
+
+**ViT-Base/16 specs:**
+- Image size: `224×224`
+- Patch size: `16×16` → 196 patches per image
+- Embedding dimension: 768
+- Transformer layers: 12
+- Attention heads: 12 per layer
+- Total parameters: ~86M
 
 ## Repository Structure
 
@@ -41,21 +38,10 @@ This setup is called **linear probing** and is a good way to adapt a large model
 
 - Python `>=3.12, <3.15`
 - `pip`
-- Optional: CUDA-capable GPU for faster training
 
 ### Python Packages
 
-The project dependencies are listed in `requirements.txt`:
-
-- `torch`
-- `torchvision`
-- `torchinfo`
-- `torchmetrics`
-- `numpy`
-- `matplotlib`
-- `requests`
-- `tqdm`
-- `pillow`
+The project dependencies are listed in `requirements.txt`
 
 ## Installation
 
@@ -69,7 +55,7 @@ pip install -r requirements.txt
 
 ## Training
 
-Run CIFAR-10 training with a frozen ViT backbone:
+Run CIFAR-10 training with ViT Model:
 
 ```bash
 python scripts/train.py \
@@ -80,14 +66,6 @@ python scripts/train.py \
   --save-path checkpoints/vit_cifar10_frozen.pth
 ```
 
-### Main Training Arguments
-
-- `--epochs`: number of training epochs
-- `--batch-size`: batch size for train and test dataloaders
-- `--lr`: learning rate for the classifier head optimizer
-- `--image-size`: input image size (default `224`)
-- `--save-path`: output path for the model weights (`.pth` or `.pt`)
-
 ## Outputs
 
 - Prints epoch-level train/test loss and accuracy
@@ -97,4 +75,13 @@ python scripts/train.py \
 
 - CIFAR-10 is automatically downloaded to `./data` if missing.
 - Accuracy is computed at the epoch level using `torchmetrics`.
-- `scripts/inference.py` is currently a placeholder and not implemented yet.
+
+## References
+```bibtex
+@article{dosovitskiy2021image,
+  title={An Image is Worth 16x16 Words: Transformers for Image Recognition at Scale},
+  author={Dosovitskiy, Alexey and Beyer, Lucas and Kolesnikov, Alexander and others},
+  journal={ICLR},
+  year={2021}
+}
+```
