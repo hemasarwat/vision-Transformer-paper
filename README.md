@@ -74,7 +74,6 @@ python scripts/train.py \
 ## Notes
 
 - CIFAR-10 is automatically downloaded to `./data` if missing.
-- Accuracy is computed at the epoch level using `torchmetrics`.
 
 ## References
 ```bibtex
