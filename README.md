@@ -1,36 +1,32 @@
-# Vision Transformer (ViT) Implementation
-*Treating images as sequences of patches*
+# Vision Transformer for CIFAR-10 (Frozen Backbone)
 
-A PyTorch implementation of the Vision Transformer paper: "An Image is Worth 16x16 Words" (Dosovitskiy et al., 2021).
+This project is a practical, beginner-friendly implementation of Vision Transformers (ViT) on CIFAR-10.
+It uses a pre-trained ViT backbone and trains only the final classifier head (linear probing), which keeps training simpler and cheaper.
 
+## In Simple Words
 
-## The Core Idea:
+- The model receives CIFAR-10 images.
+- Images are resized to `224 x 224` to match ViT input size.
+- The frozen backbone extracts visual features.
+- A small trainable head maps those features to 10 CIFAR-10 classes.
+- Training prints loss/accuracy and saves checkpoints.
 
-Transformers took over NLP a few years ago. Everyone thought they were just for text. Then this paper came along and said: "What if we treat images As a patch of sentences?"
+## Project Scope
 
-The idea is simple: chop an image into fixed-size patches (like cutting a photo into a grid), flatten each patch into a vector, and feed them to a standard Transformer. No convolutions needed. The model learns to pay attention to different parts of the image, just like it would with words in a sentence.
-
-Turns out, when you train it on massive datasets (we're talking hundreds of millions of images), it matches or beats CNNs. so where is the catch? It needs way more data than traditional computer vision models because it doesn't have built-in assumptions about images (like "nearby pixels are related"). It learns everything from scratch.
-
-
-## Architecture Overview
-
-**ViT-Base/16 specs:**
-- Image size: `224×224`
-- Patch size: `16×16` → 196 patches per image
-- Embedding dimension: 768
-- Transformer layers: 12
-- Attention heads: 12 per layer
-- Total parameters: ~86M
+- Dataset: CIFAR-10
+- Backbone: `torchvision.models.vit_b_16` with ImageNet pre-trained weights
+- Training strategy: frozen backbone + trainable classifier head
+- Input resolution: `224 x 224`
+- Patch size: `16 x 16`
 
 ## Repository Structure
 
-- `scripts/train.py`: training entrypoint for CIFAR-10 linear probing
+- `scripts/train.py`: training entrypoint
 - `src/data/dataset.py`: CIFAR-10 transforms and dataloaders
 - `helping_functions/engine.py`: train/test loops and metric tracking
 - `src/models/`: ViT building blocks and custom ViT implementation
-- `src/utils.py`: reproducibility, device selection, and model saving helpers
-- `notebooks/`: experiments and exploratory work
+- `src/utils.py`: reproducibility, device selection, and checkpoint saving helpers
+- `notebooks/`: exploratory experiments
 
 ## Requirements
 
@@ -38,10 +34,21 @@ Turns out, when you train it on massive datasets (we're talking hundreds of mill
 
 - Python `>=3.12, <3.15`
 - `pip`
+- Optional: CUDA-capable GPU
 
 ### Python Packages
 
-The project dependencies are listed in `requirements.txt`
+Dependencies are defined in `requirements.txt`:
+
+- `torch`
+- `torchvision`
+- `torchinfo`
+- `torchmetrics`
+- `numpy`
+- `matplotlib`
+- `requests`
+- `tqdm`
+- `pillow`
 
 ## Installation
 
@@ -55,8 +62,6 @@ pip install -r requirements.txt
 
 ## Training
 
-Run CIFAR-10 training with ViT Model:
-
 ```bash
 python scripts/train.py \
   --epochs 5 \
@@ -69,18 +74,10 @@ python scripts/train.py \
 ## Outputs
 
 - Prints epoch-level train/test loss and accuracy
-- Saves model weights to the path provided by `--save-path`
+- Saves model weights to `--save-path`
 
 ## Notes
 
-- CIFAR-10 is automatically downloaded to `./data` if missing.
-
-## References
-```bibtex
-@article{dosovitskiy2021image,
-  title={An Image is Worth 16x16 Words: Transformers for Image Recognition at Scale},
-  author={Dosovitskiy, Alexey and Beyer, Lucas and Kolesnikov, Alexander and others},
-  journal={ICLR},
-  year={2021}
-}
-```
+- CIFAR-10 is downloaded to `./data` if missing.
+- Accuracy is computed at epoch level with `torchmetrics`.
+- `scripts/inference.py` is a placeholder.
