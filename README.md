@@ -10,14 +10,6 @@ The idea is surprisingly simple: chop an image into fixed-size patches (like cut
 
 Turns out, when you train it on massive datasets (we're talking hundreds of millions of images), it matches or make CNNs. The catch? It needs way more data than traditional computer vision models because it doesn't have assumptions about images (like "nearby pixels are related"). It learns everything from scratch.
 
-## What I Built
-
-This repo contains:
-- **Clean implementation** of ViT architecture (patch embedding, transformer blocks, classification head)
-- **Fine-tuned model** on CIFAR10 using pre-trained ViT weights
-- **Modular code structure** - each component in its own file
-- **Training scripts** - ready to run
-
 ## Architecture Overview
 
 **ViT-Base/16 specs:**
@@ -82,7 +74,7 @@ python scripts/train.py --epochs 5 --batch-size 32
 | Fine-tuned (head only) | CIFAR10 | ~87% | 30-60 min (CPU) |
 
 **Why transfer learning?**
-The paper trained on million of images, with around 86M parameters it is nearly imposibble to train the model from scratch 
+The paper trained on million of images, with around 86M parameters it is nearly imposible to train the model from scratch 
 
 ## What I Learned
 
