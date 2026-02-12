@@ -60,7 +60,7 @@ vit-implementation/
 
 ### Installation
 ```bash
-git clone https://github.com/yourusername/vit-implementation.git
+git clone https://github.com/hemasarwat/vision-Transformer-paper.git
 cd vit-implementation
 pip install -r requirements.txt
 ```
@@ -74,12 +74,6 @@ python scripts/train.py --epochs 5 --batch-size 32
 
 **Note:** This uses transfer learning - we freeze the pre-trained backbone and only train the classification head. Training from scratch would require days on CPU and millions of images.
 
-### Inference
-
-Test on your own image:
-```bash
-python scripts/inference.py checkpoints/vit_finetuned.pth your_image.jpg
-```
 
 ## Results
 
@@ -88,7 +82,7 @@ python scripts/inference.py checkpoints/vit_finetuned.pth your_image.jpg
 | Fine-tuned (head only) | CIFAR10 | ~87% | 30-60 min (CPU) |
 
 **Why transfer learning?**
-The paper trained on JFT-300M (300 million images) for pre-training. That's not feasible on a laptop. Fine-tuning a pre-trained model is the practical approach for limited resources.
+The paper trained on million of images, with around 86M parameters it is nearly imposibble to train the model from scratch 
 
 ## What I Learned
 
@@ -99,17 +93,10 @@ The paper trained on JFT-300M (300 million images) for pre-training. That's not 
 - Layer normalization goes before attention/MLP blocks (pre-norm is more stable)
 
 **Implementation lessons:**
-- Building from paper teaches you way more than following tutorials
-- Structuring code properly makes debugging 10x easier
+- Building from paper teaches you way more techniques they used 
 - Transfer learning isn't optional - it's essential for transformers on small datasets
-- Getting 10% accuracy on 225 images validated the paper's findings about data requirements
+- Getting bad accuracy on even small amount of images validated the paper's findings about data requirements
 
-## Limitations & Future Work
-
-**Current limitations:**
-- Only tested on CIFAR10 (32×32 images upscaled to 224×224)
-- Uses PyTorch's `nn.MultiheadAttention` instead of custom implementation
-- No data augmentation or advanced training techniques
 
 ## References
 ```bibtex
